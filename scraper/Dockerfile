@@ -19,6 +19,6 @@ RUN wget https://chromedriver.storage.googleapis.com/LATEST_RELEASE -O /tmp/vers
 RUN pip install --upgrade pip
 RUN pip install beautifulsoup4 selenium
 
-COPY src/houseprice-scraper.py .
+COPY src/ .
 
-CMD ["python", "./houseprice-scraper.py"]
+CMD ["python", "./houseprice_scraper.py"]
