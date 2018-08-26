@@ -1,8 +1,8 @@
-from oikotie import scrape_pages
+from vuokraovi import scrape_pages
 
 
 def insert_to_db(data, host):
-    print(data, host)
+    print(data)
 
 if __name__ == '__main__':
     for x in scrape_pages():

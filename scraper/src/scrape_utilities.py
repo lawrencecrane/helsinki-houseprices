@@ -30,3 +30,10 @@ def safe_get(x, attr):
         return None
 
     return x.get(attr)
+
+
+def safe_text(x):
+    if (x == None):
+        return None
+
+    return x.text
