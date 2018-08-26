@@ -1,11 +1,19 @@
 from bs4 import BeautifulSoup
 from scrape_utilities import safe_get, safe_text, page_source
+import re
 
 def parse_key(x):
-    x.find('th')
+    return re.sub(r":$" , '', safe_text(x.find('th')).replace("\n", "").strip())
 
 def parse_value(x):
-    x.find('td')
+    value_tag = x.find('td')
+
+    if (value_tag.span == None):
+        return safe_text(value_tag).replace("\n", "").strip().replace(u'\xa0', '')
+
+    f = lambda x: safe_text(x).replace("\n", "").strip()
+    return [f(x) for x in value_tag.select('span')]
+
 
 def transform_ad_data(x):
     data = {}
@@ -21,11 +29,15 @@ def transform_ad_data(x):
         data['advertiser'] = safe_text(rentalContactInfo.p.b.a)
         data['is_private'] = False
 
-    # basic_info = x.select('#collapseOne table')
-    # data.update({parse_key(x): parse_value(x) for x in basic_info.find_all('tr')})
+    basic_info = x.select('#collapseOne table')
 
-    # cost_info = x.select('#collapseTwo table')
-    # data.update({parse_key(x): parse_value(x) for x in cost_info.find_all('tr')})
+    if (len(basic_info) == 1):
+        data.update({parse_key(x): parse_value(x) for x in basic_info[0].find_all('tr')})
+
+    cost_info = x.select('#collapseTwo table')
+
+    if (len(cost_info) == 1):
+        data.update({parse_key(x): parse_value(x) for x in cost_info[0].find_all('tr')})
 
     return data
 
