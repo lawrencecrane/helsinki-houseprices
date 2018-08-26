@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-from scrape_utilities import safe_get
+from scrape_utilities import safe_get, page_source
 
 
 def transform_data(x):
@@ -12,21 +12,21 @@ def transform_data(x):
     return data
 
 
-def process_page(soup, transform_card):
+def process_page(soup, transform_ad):
     div_cards = soup.find('div', attrs={"class": "cards"})
     xs = div_cards.find_all('card')
 
     if (len(xs) == 0):
         return False, None
 
-    return True, [transform_card(x) for x in xs]
+    return True, [transform_ad(x) for x in xs]
 
 
-def parse_pages(page_source):
+def scrape_pages():
     oikotie_url = "https://asunnot.oikotie.fi/vuokrattavat-asunnot?cardType=101&locations=%5B%5B64,6,%22Helsinki%22%5D%5D&pagination="
     page_number = 54
-    result = True
-    while result:
-        result, data = process_page(page_source(oikotie_url + str(page_number)), transform_data)
+    isData = True
+    while isData:
+        isData, data = process_page(page_source(oikotie_url + str(page_number)), transform_data)
         yield data
         page_number += 1
