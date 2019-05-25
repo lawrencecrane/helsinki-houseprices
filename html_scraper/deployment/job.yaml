@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: html-scraper
+spec:
+  template:
+    spec:
+      containers:
+      - name: scraper-main
+        image: html-scraper
+        command: ["/bin/sh", "-c"]
+        args:
+        - |
+          sleep 5s
+          trap "touch /tmp/shared/exited" EXIT
+          python /home/selenium/scrape.py
+        volumeMounts:
+        - mountPath: /tmp/shared
+          name: tmp-shared
+      - name: seleniumserver
+        image: seleniumserver-sidecar
+        volumeMounts:
+        - mountPath: /tmp/shared
+          name: tmp-shared
+          readOnly: true
+      restartPolicy: Never
+      volumes:
+      - name: tmp-shared
+        emptyDir: {}
+  backoffLimit: 1
+  parallelism: 1
+  completions: 1
