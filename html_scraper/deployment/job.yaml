@@ -6,27 +6,38 @@ spec:
   template:
     spec:
       containers:
-      - name: scraper-main
-        image: html-scraper
-        command: ["/bin/sh", "-c"]
-        args:
-        - |
-          sleep 5s
-          trap "touch /tmp/shared/exited" EXIT
-          python /home/selenium/scrape.py
-        volumeMounts:
-        - mountPath: /tmp/shared
-          name: tmp-shared
-      - name: seleniumserver
-        image: seleniumserver-sidecar
-        volumeMounts:
-        - mountPath: /tmp/shared
-          name: tmp-shared
-          readOnly: true
-      restartPolicy: Never
+        - name: scraper-main
+          image: html-scraper
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              sleep 5s
+              trap "touch /tmp/shared/exited" EXIT
+              python /home/selenium/scrape.py
+          volumeMounts:
+            - mountPath: /tmp/shared
+              name: tmp-shared
+            - mountPath: /data
+              name: data
+        - name: seleniumserver
+          image: seleniumserver-sidecar
+          volumeMounts:
+            - mountPath: /tmp/shared
+              name: tmp-shared
+              readOnly: true
+        restartPolicy: Never
+      initContainers:
+        - name: init-html-db
+          image: sqlite-db-creator
+          volumeMounts:
+            - mountPath: /data
+              name: data
       volumes:
-      - name: tmp-shared
-        emptyDir: {}
+        - name: tmp-shared
+          emptyDir: {}
+        - name: data
+          persistentVolumeClaim:
+            claimName: html-db-claim
   backoffLimit: 1
   parallelism: 1
   completions: 1
