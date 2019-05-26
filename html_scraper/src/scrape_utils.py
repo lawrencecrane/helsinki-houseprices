@@ -14,8 +14,8 @@ def safe_get(x, attr):
     return x.get(attr)
 
 
-def create_driver():
+def create_driver(url):
     return webdriver.Remote(
-        command_executor='http://seleniumserver:4444/wd/hub',
+        command_executor=url,
         desired_capabilities=DesiredCapabilities.CHROME
     )

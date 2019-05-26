@@ -11,6 +11,7 @@ services:
       - seleniumserver
     environment:
       - VUOKRAOVI_URL=http://vuokraovi_webapp
+      - SELENIUM_URL=http://seleniumserver:4444/wd/hub
     depends_on:
       - seleniumserver
       - db

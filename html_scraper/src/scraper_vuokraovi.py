@@ -21,12 +21,13 @@ class vuokraovi_scraper():
 
 
 class VuokraoviDriver():
-    def __init__(self, url):
+    def __init__(self, url, selenium_url):
         self.url = url
+        self.selenium_url = selenium_url
         self.query = url + '/vuokra-asunnot/Helsinki?pageType=list&page='
 
     def __enter__(self):
-        self.driver = utils.create_driver()
+        self.driver = utils.create_driver(self.selenium_url)
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):

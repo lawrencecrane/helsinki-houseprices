@@ -1,3 +1,4 @@
+---
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -8,15 +9,19 @@ spec:
       containers:
         - name: scraper-main
           image: html-scraper
+          # FOR LOCAL CLUSTER:
+          imagePullPolicy: Never
           command: ["/bin/sh", "-c"]
           args:
             - |
               sleep 5s
               trap "touch /tmp/shared/exited" EXIT
-              python /home/selenium/scrape.py
-           env:
-             - name: VUOKRAOVI_URL
-               value: "https://www.vuokraovi.com"
+              python /home/selenium/main.py
+          env:
+            - name: VUOKRAOVI_URL
+              value: "http://dev-vuokraovi-app"
+            - name: SELENIUM_URL
+              value: "http://localhost:4444/wd/hub"
           volumeMounts:
             - mountPath: /tmp/shared
               name: tmp-shared
@@ -24,14 +29,18 @@ spec:
               name: data
         - name: seleniumserver
           image: seleniumserver-sidecar
+          # FOR LOCAL CLUSTER:
+          imagePullPolicy: Never
           volumeMounts:
             - mountPath: /tmp/shared
               name: tmp-shared
               readOnly: true
-        restartPolicy: Never
+      restartPolicy: Never
       initContainers:
         - name: init-html-db
           image: sqlite-db-creator
+          # FOR LOCAL CLUSTER:
+          imagePullPolicy: Never
           volumeMounts:
             - mountPath: /data
               name: data

@@ -7,12 +7,13 @@ from functools import partial
 
 def main():
     vuokraovi_url = os.environ['VUOKRAOVI_URL']
+    selenium_url = os.environ['SELENIUM_URL']
 
     conn = sqlite3.connect('/data/html.db')
     cur = conn.cursor()
 
     try:
-        with VuokraoviDriver(vuokraovi_url) as driver:
+        with VuokraoviDriver(vuokraovi_url, selenium_url) as driver:
             vuokraovi_scraper.scrape_ads(
                 driver,
                 partial(insert_to_db, cur, lambda _a, _b: None),
