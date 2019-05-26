@@ -67,7 +67,7 @@ var items = new Vue({
       {
         id: 0,
         ad: {
-          url: 'vuokra-asunto/1'
+          url: '/vuokra-asunto/1'
         },
         house: {
           size: 'kerrostalo, 10 m²',
@@ -79,7 +79,7 @@ var items = new Vue({
       {
         id: 1,
         ad: {
-          url: 'vuokra-asunto/2'
+          url: '/vuokra-asunto/2'
         },
         house: {
           size: 'kerrostalo, 30 m²',
@@ -91,7 +91,7 @@ var items = new Vue({
       {
         id: 2,
         ad: {
-          url: 'vuokra-asunto/3'
+          url: '/vuokra-asunto/3'
         },
         house: {
           size: 'kerrostalo, 50 m²',
