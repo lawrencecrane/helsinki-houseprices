@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: dev-vuokraovi-app-v0
+  namespace: default
+  labels:
+    app: dev-vuokraovi-app
+    version: v0
+spec:
+  replicas: 1
+  selector:
+    app: dev-vuokraovi-app
+    version: v0
+  template:
+    metadata:
+      labels:
+        app: dev-vuokraovi-app
+        version: v0
+    spec:
+      containers:
+      - name: dev-vuokraovi-app
+        image: dev-vuokraovi-app
+        # FOR LOCAL CLUSTER:
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
