@@ -20,4 +20,4 @@ FROM nginx as dev-vuokraovi-app
 RUN rm /etc/nginx/conf.d/*
 
 COPY --from=dev-vuokraovi-frontend /home/node/vuokraovi/src-gen /usr/share/vuokraovi/www/
-COPY vuokraovi.conf /etc/nginx/conf.d/vuokraovi.conf
+COPY nginx/vuokraovi.conf /etc/nginx/conf.d/vuokraovi.conf
