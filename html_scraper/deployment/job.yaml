@@ -14,6 +14,9 @@ spec:
               sleep 5s
               trap "touch /tmp/shared/exited" EXIT
               python /home/selenium/scrape.py
+           env:
+             - name: VUOKRAOVI_URL
+               value: "https://www.vuokraovi.com"
           volumeMounts:
             - mountPath: /tmp/shared
               name: tmp-shared

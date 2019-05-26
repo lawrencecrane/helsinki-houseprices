@@ -9,13 +9,19 @@ services:
       - ./data:/data
     links:
       - seleniumserver
+    environment:
+      - VUOKRAOVI_URL=http://vuokraovi_webapp
     depends_on:
       - seleniumserver
+      - db
+      - vuokraovi_webapp
   seleniumserver:
     image: selenium/standalone-chrome:3
-    ports:
-      - "4444:4444"
+    links:
+      - vuokraovi_webapp
   db:
     image: sqlite-db-creator
     volumes:
       - ./data:/data
+  vuokraovi_webapp:
+    image: dev-vuokraovi-app

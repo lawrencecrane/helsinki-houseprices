@@ -2,12 +2,6 @@ from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 
-def do_all_urls(driver, urls, callback):
-    for url in urls:
-        html = get_html(driver, url)
-        callback(url, html)
-
-
 def get_html(driver, url):
     driver.get(url)
     return driver.page_source
