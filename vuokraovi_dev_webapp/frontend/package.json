@@ -1,0 +1,23 @@
+{
+  "name": "dev-vuokraovi-webapp",
+  "version": "1.0.0",
+  "description": "Vuokraovi frontend for scraping development purposes",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "browserify -g envify -e src/index.js > src-gen/bundle.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "vue": "^2.6.10"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-run": "^1.7.1",
+    "envify": "^4.1.0"
+  },
+  "browser": {
+    "vue": "vue/dist/vue.common.js"
+  }
+}

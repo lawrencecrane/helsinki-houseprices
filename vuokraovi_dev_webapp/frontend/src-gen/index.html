@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <div id="listContent">
+            <div class="list-pager" id="top-pagination">
+                <pagination
+                    v-bind:data="pages"
+                ></pagination>
+            </div>
+            <div id="items">
+                <list-item
+                    v-for="ad in ads"
+                    v-bind:data="ad"
+                    v-bind:key="ad.id"
+                ></list-item>
+            </div>
+            <div class="list-pager" id="bottom-pagination">
+                <pagination
+                    v-bind:data="pages"
+                ></pagination>
+            </div>
+        </div>
+        <script type="text/javascript" src="bundle.js"></script>
+    </body>
+</html>
