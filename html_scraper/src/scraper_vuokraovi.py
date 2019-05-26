@@ -3,18 +3,18 @@ from functools import reduce
 from bs4 import BeautifulSoup
 
 
-class VuokraoviScraper():
+class vuokraovi_scraper():
     def __init__(self):
         pass
 
     def scrape_ads(driver, ad_callback, start_page=1, end_page=1):
         driver.do_all_urls(
-            VuokraoviScraper.get_all_urls(driver, start_page, end_page),
+            vuokraovi_scraper.get_all_urls(driver, start_page, end_page),
             ad_callback
         )
 
     def get_all_urls(driver, start_page=1, end_page=1):
-        urls = [VuokraoviParser.get_urls_from_page(driver.get_page(page))
+        urls = [vuokraovi_parser.get_urls_from_page(driver.get_page(page))
                 for page in range(start_page, end_page + 1)]
 
         return reduce(lambda acc, xs: acc + xs, urls)
@@ -44,7 +44,7 @@ class VuokraoviDriver():
             callback(abs_url, html)
 
 
-class VuokraoviParser():
+class vuokraovi_parser():
     def __init__(self):
         pass
 
@@ -55,7 +55,7 @@ class VuokraoviParser():
                                     attrs={'class': 'list-item-container'})
 
         return [url for url in
-                [VuokraoviParser.get_url_from_ad(ad) for ad in ads]
+                [vuokraovi_parser.get_url_from_ad(ad) for ad in ads]
                 if url is not None]
 
     def get_url_from_ad(ad):

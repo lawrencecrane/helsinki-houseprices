@@ -1,8 +1,7 @@
 import os
 import sqlite3
-from scraper_vuokraovi import VuokraoviScraper
+from scraper_vuokraovi import vuokraovi_scraper, vuokraovi_parser
 from scraper_vuokraovi import VuokraoviDriver
-from scraper_vuokraovi import VuokraoviParser
 from functools import partial
 
 
@@ -14,7 +13,7 @@ def main():
 
     try:
         with VuokraoviDriver(vuokraovi_url) as driver:
-            VuokraoviScraper.scrape_ads(
+            vuokraovi_scraper.scrape_ads(
                 driver,
                 partial(insert_to_db, cur, lambda _a, _b: None),
                 1,
@@ -22,12 +21,12 @@ def main():
             )
 
             end_page = min(
-                VuokraoviParser.get_max_pagenumber(driver.get_page(1)),
+                vuokraovi_parser.get_max_pagenumber(driver.get_page(1)),
                 100
             )
 
             if end_page > 1:
-                VuokraoviScraper.scrape_ads(
+                vuokraovi_scraper.scrape_ads(
                     driver,
                     partial(insert_to_db, cur, raise_duplicate_error),
                     2,
